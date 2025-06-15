@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bias Analysis Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Results for "{{ query }}"</h1>
+    {% if articles and articles|length > 0 %}
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Source</th>
+                <th>Bias</th>
+                <th>URL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for article in articles %}
+            <tr>
+                <td><a href="{{ article.url }}" target="_blank">{{ article.title }}</a></td>
+                <td>{{ article.source }}</td>
+                <td>{{ article.bias }}</td>
+                <td><a href="{{ article.url }}" target="_blank">Link</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <canvas id="biasChart" width="400" height="200"></canvas>
+    <script>
+      // Prepare data for chart
+      const biasCounts = {
+        'Left': 0,
+        'Center': 0,
+        'Right': 0,
+        'Neutral': 0,
+        'Fake': 0
+      };
+      {% for article in articles %}
+        biasCounts["{{ article.bias|capitalize }}"] = (biasCounts["{{ article.bias|capitalize }}"] || 0) + 1;
+      {% endfor %}
+      const ctx = document.getElementById('biasChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(biasCounts),
+          datasets: [{
+            label: 'Bias Distribution',
+            data: Object.values(biasCounts),
+            backgroundColor: [
+              '#0074D9', '#2ECC40', '#FF4136', '#AAAAAA', '#FF851B'
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+    </script>
+    {% else %}
+      <p>No articles found for this query.</p>
+    {% endif %}
+    <a href="/">Back to Home</a>
+</body>
+</html>

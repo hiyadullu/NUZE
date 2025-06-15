@@ -1,14 +1,20 @@
 # bias_pipeline.py
 
-from news_scraper import get_articles
 from bias_eval import evaluate_bias
 from preprocess import clean_text
-# Import other necessary modules as needed
 
-def run_pipeline(query, page_size=10):
-    articles = get_articles(query=query, page_size=page_size)
-    # Preprocess articles if necessary
-    # For example:
-    # cleaned_articles = [clean_text(article) for article in articles]
-    df = evaluate_bias(articles)
-    return df
+def run_pipeline(articles):
+    # Preprocess and analyze each article
+    results = []
+    for article in articles:
+        content = article.get('content') or article.get('description') or ''
+        cleaned = clean_text(content)
+        bias, fake = evaluate_bias(cleaned)  # Pass only the cleaned text
+        results.append({
+            'title': article.get('title', ''),
+            'source': article.get('source', {}).get('name', ''),
+            'bias': bias,
+            'fake': fake,
+            'url': article.get('url', '')
+        })
+    return results

@@ -1,0 +1,15 @@
+2025-06-15 02:14:35.610689 - Received query: india
+2025-06-15 02:21:49.353411 - Received query: india
+2025-06-15 02:21:50.431775 - Fetched 0 articles from NewsAPI
+2025-06-15 02:26:12.544502 - Received query: india
+2025-06-15 02:26:13.600110 - Fetched 0 articles from NewsAPI
+2025-06-15 02:28:28.482277 - Received query: india
+2025-06-15 02:28:29.720435 - Fetched 0 articles from NewsAPI
+2025-06-15 02:30:36.046007 - Received query: india
+2025-06-15 02:30:37.040094 - Fetched 0 articles from NewsAPI
+2025-06-16 02:20:15.977201 - Received query: None
+2025-06-16 02:20:17.481231 - Fetched 0 articles from NewsAPI
+2025-06-16 02:20:31.666431 - Received query: None
+2025-06-16 02:20:31.911018 - Received query: None
+2025-06-16 02:20:32.221885 - Fetched 0 articles from NewsAPI
+2025-06-16 02:20:32.847965 - Fetched 0 articles from NewsAPI
