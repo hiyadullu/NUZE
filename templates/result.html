@@ -2,70 +2,250 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bias Analysis Results</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='resstyle.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <h1>Results for "{{ query }}"</h1>
-    {% if articles and articles|length > 0 %}
-    <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Source</th>
-                <th>Bias</th>
-                <th>URL</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for article in articles %}
-            <tr>
-                <td><a href="{{ article.url }}" target="_blank">{{ article.title }}</a></td>
-                <td>{{ article.source }}</td>
-                <td>{{ article.bias }}</td>
-                <td><a href="{{ article.url }}" target="_blank">Link</a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <canvas id="biasChart" width="400" height="200"></canvas>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-chart-pie"></i> Media Bias Analysis</h1>
+            <div class="query-display">Results for "{{ query }}"</div>
+        </header>
+        
+        <div class="summary-cards">
+            <div class="summary-card left">
+                <h3>Left-Leaning</h3>
+                <div class="value">{{ bias_counts.left }}</div>
+                <div>Articles</div>
+            </div>
+            <div class="summary-card center">
+                <h3>Center</h3>
+                <div class="value">{{ bias_counts.center }}</div>
+                <div>Articles</div>
+            </div>
+            <div class="summary-card right">
+                <h3>Right-Leaning</h3>
+                <div class="value">{{ bias_counts.right }}</div>
+                <div>Articles</div>
+            </div>
+            <div class="summary-card neutral">
+                <h3>Neutral</h3>
+                <div class="value">{{ bias_counts.neutral }}</div>
+                <div>Articles</div>
+            </div>
+            <div class="summary-card fake">
+                <h3>Fake News</h3>
+                <div class="value">{{ bias_counts.fake }}</div>
+                <div>Articles</div>
+            </div>
+        </div>
+        
+        <div class="dashboard">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar"></i>
+                    <h2>Bias Distribution</h2>
+                </div>
+                <div class="chart-container">
+                    <canvas id="biasChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie"></i>
+                    <h2>Bias Proportions</h2>
+                </div>
+                <div class="chart-container">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-newspaper"></i>
+                <h2>Analyzed Articles</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Source</th>
+                        <th>Bias</th>
+                        <th>URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for article in articles %}
+                    <tr>
+                        <td>{{ article.title }}</td>
+                        <td>{{ article.source }}</td>
+                        <td>
+                            <span class="bias-tag bias-{{ article.bias|lower }}">
+                                {{ article.bias|capitalize }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{{ article.url }}" target="_blank">Read Article</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="/" class="btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </div>
+        
+        <div class="footer">
+            <p>Media Bias Analysis Dashboard &copy; 2025 | Data updated: {{ query }}</p>
+        </div>
+    </div>
+
     <script>
-      // Prepare data for chart
-      const biasCounts = {
-        'Left': 0,
-        'Center': 0,
-        'Right': 0,
-        'Neutral': 0,
-        'Fake': 0
-      };
-      {% for article in articles %}
-        biasCounts["{{ article.bias|capitalize }}"] = (biasCounts["{{ article.bias|capitalize }}"] || 0) + 1;
-      {% endfor %}
-      const ctx = document.getElementById('biasChart').getContext('2d');
-      new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: Object.keys(biasCounts),
-          datasets: [{
-            label: 'Bias Distribution',
-            data: Object.values(biasCounts),
-            backgroundColor: [
-              '#0074D9', '#2ECC40', '#FF4136', '#AAAAAA', '#FF851B'
-            ]
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { display: false }
-          }
-        }
-      });
+        Chart.register(ChartDataLabels);
+
+        const biasData = {
+            'Left': {{ bias_counts.left }},
+            'Center': {{ bias_counts.center }},
+            'Right': {{ bias_counts.right }},
+            'Neutral': {{ bias_counts.neutral }},
+            'Fake': {{ bias_counts.fake }}
+        };
+
+        const biasColors = {
+            'Left': '#0074D9',
+            'Center': '#2ECC40',
+            'Right': '#FF4136',
+            'Neutral': '#AAAAAA',
+            'Fake': '#FF851B'
+        };
+
+        // Bar Chart
+        const barCtx = document.getElementById('biasChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(biasData),
+                datasets: [{
+                    label: 'Number of Articles',
+                    data: Object.values(biasData),
+                    backgroundColor: Object.values(biasColors),
+                    borderColor: 'rgba(0, 0, 0, 0.1)',
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    barPercentage: 0.7
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: 'Articles by Bias Category',
+                        font: { size: 16, weight: '600' },
+                        padding: { bottom: 20 }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        titleFont: { size: 14 },
+                        bodyFont: { size: 14 }
+                    },
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'top',
+                        color: '#333',
+                        font: { weight: 'bold', size: 13 },
+                        formatter: (value) => value
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                        ticks: { font: { size: 13 } },
+                        title: {
+                            display: true,
+                            text: 'Number of Articles',
+                            font: { size: 14, weight: '500' }
+                        }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { size: 13, weight: '500' } }
+                    }
+                }
+            }
+        });
+
+        // Pie Chart
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        new Chart(pieCtx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(biasData),
+                datasets: [{
+                    data: Object.values(biasData),
+                    backgroundColor: Object.values(biasColors),
+                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                    borderWidth: 2,
+                    hoverOffset: 15
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '60%',
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            padding: 20,
+                            font: { size: 13 },
+                            usePointStyle: true,
+                            pointStyle: 'circle'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Bias Distribution',
+                        font: { size: 16, weight: '600' },
+                        padding: { bottom: 20 }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.raw || 0;
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = Math.round((value / total) * 100);
+                                return `${label}: ${value} (${percentage}%)`;
+                            }
+                        }
+                    },
+                    datalabels: {
+                        color: '#fff',
+                        font: { weight: 'bold', size: 13 },
+                        formatter: (value, ctx) => {
+                            const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = Math.round((value / total) * 100);
+                            return `${percentage}%`;
+                        }
+                    }
+                }
+            }
+        });
     </script>
-    {% else %}
-      <p>No articles found for this query.</p>
-    {% endif %}
-    <a href="/">Back to Home</a>
 </body>
 </html>
