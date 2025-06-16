@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bias Analysis Results</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e7f1 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(120deg, #1a237e, #283593);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .query-display {
+            font-size: 1.4rem;
+            background: rgba(255, 255, 255, 0.2);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 30px;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 992px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .card-header i {
+            font-size: 1.5rem;
+            margin-right: 12px;
+            background: #3f51b5;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .card-header h2 {
+            font-size: 1.6rem;
+            color: #1a237e;
+        }
+        
+        .chart-container {
+            height: 380px;
+            position: relative;
+        }
+        
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+        }
+        
+        .summary-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #5c6bc0;
+        }
+        
+        .summary-card .value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1a237e;
+        }
+        
+        .summary-card.left { border-top: 5px solid #0074D9; }
+        .summary-card.center { border-top: 5px solid #2ECC40; }
+        .summary-card.right { border-top: 5px solid #FF4136; }
+        .summary-card.neutral { border-top: 5px solid #AAAAAA; }
+        .summary-card.fake { border-top: 5px solid #FF851B; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+        
+        thead {
+            background: linear-gradient(120deg, #1a237e, #3949ab);
+            color: white;
+        }
+        
+        th {
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        tbody tr {
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s;
+        }
+        
+        tbody tr:hover {
+            background: #f8f9ff;
+        }
+        
+        td {
+            padding: 15px;
+            color: #555;
+        }
+        
+        td:first-child {
+            font-weight: 500;
+            color: #1a237e;
+        }
+        
+        .bias-tag {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: white;
+            display: inline-block;
+        }
+        
+        .bias-left { background: #0074D9; }
+        .bias-center { background: #2ECC40; }
+        .bias-right { background: #FF4136; }
+        .bias-neutral { background: #AAAAAA; }
+        .bias-fake { background: #FF851B; }
+        
+        a {
+            color: #3949ab;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        a:hover {
+            color: #1a237e;
+            text-decoration: underline;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(120deg, #1a237e, #3949ab);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(26, 35, 126, 0.3);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(26, 35, 126, 0.4);
+            text-decoration: none;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 50px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+        
+        .no-results i {
+            font-size: 4rem;
+            color: #b0b0b0;
+            margin-bottom: 20px;
+        }
+        
+        .no-results p {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-chart-pie"></i> Media Bias Analysis</h1>
+            <div class="query-display">Results for "Artificial Intelligence in Healthcare"</div>
+        </header>
+        
+        <div class="summary-cards">
+            <div class="summary-card left">
+                <h3>Left-Leaning</h3>
+                <div class="value">8</div>
+                <div>Articles</div>
+            </div>
+            <div class="summary-card center">
+                <h3>Center</h3>
+                <div class="value">6</div>
+                <div>Articles</div>
+            </div>
+            <div class="summary-card right">
+                <h3>Right-Leaning</h3>
+                <div class="value">7</div>
+                <div>Articles</div>
+            </div>
+            <div class="summary-card neutral">
+                <h3>Neutral</h3>
+                <div class="value">4</div>
+                <div>Articles</div>
+            </div>
+            <div class="summary-card fake">
+                <h3>Fake News</h3>
+                <div class="value">2</div>
+                <div>Articles</div>
+            </div>
+        </div>
+        
+        <div class="dashboard">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar"></i>
+                    <h2>Bias Distribution</h2>
+                </div>
+                <div class="chart-container">
+                    <canvas id="biasChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie"></i>
+                    <h2>Bias Proportions</h2>
+                </div>
+                <div class="chart-container">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-newspaper"></i>
+                <h2>Analyzed Articles</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Source</th>
+                        <th>Bias</th>
+                        <th>URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>How AI is Revolutionizing Patient Care</td>
+                        <td>Tech Health Journal</td>
+                        <td><span class="bias-tag bias-center">Center</span></td>
+                        <td><a href="#" target="_blank">Read Article</a></td>
+                    </tr>
+                    <tr>
+                        <td>The Promise and Peril of Medical AI</td>
+                        <td>Future Health Review</td>
+                        <td><span class="bias-tag bias-left">Left</span></td>
+                        <td><a href="#" target="_blank">Read Article</a></td>
+                    </tr>
+                    <tr>
+                        <td>Government Overreach in AI Healthcare</td>
+                        <td>Liberty Today</td>
+                        <td><span class="bias-tag bias-right">Right</span></td>
+                        <td><a href="#" target="_blank">Read Article</a></td>
+                    </tr>
+                    <tr>
+                        <td>AI Diagnostics: A Comprehensive Review</td>
+                        <td>Medical Science Digest</td>
+                        <td><span class="bias-tag bias-neutral">Neutral</span></td>
+                        <td><a href="#" target="_blank">Read Article</a></td>
+                    </tr>
+                    <tr>
+                        <td>AI Will Replace 80% of Doctors by 2030</td>
+                        <td>News Flash Daily</td>
+                        <td><span class="bias-tag bias-fake">Fake</span></td>
+                        <td><a href="#" target="_blank">Read Article</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="/" class="btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </div>
+        
+        <div class="footer">
+            <p>Media Bias Analysis Dashboard &copy; 2023 | Data updated: June 16, 2025</p>
+        </div>
+    </div>
+
+    <script>
+        // Register plugins
+        Chart.register(ChartDataLabels);
+        
+        // Prepare data for charts
+        const biasData = {
+            'Left': 8,
+            'Center': 6,
+            'Right': 7,
+            'Neutral': 4,
+            'Fake': 2
+        };
+        
+        const biasColors = {
+            'Left': '#0074D9',
+            'Center': '#2ECC40',
+            'Right': '#FF4136',
+            'Neutral': '#AAAAAA',
+            'Fake': '#FF851B'
+        };
+        
+        // Bar Chart
+        const barCtx = document.getElementById('biasChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(biasData),
+                datasets: [{
+                    label: 'Number of Articles',
+                    data: Object.values(biasData),
+                    backgroundColor: Object.values(biasColors),
+                    borderColor: 'rgba(0, 0, 0, 0.1)',
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    barPercentage: 0.7
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Articles by Bias Category',
+                        font: {
+                            size: 16,
+                            weight: '600'
+                        },
+                        padding: {
+                            bottom: 20
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        titleFont: {
+                            size: 14
+                        },
+                        bodyFont: {
+                            size: 14
+                        }
+                    },
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'top',
+                        color: '#333',
+                        font: {
+                            weight: 'bold',
+                            size: 13
+                        },
+                        formatter: (value) => value
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        },
+                        ticks: {
+                            font: {
+                                size: 13
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Number of Articles',
+                            font: {
+                                size: 14,
+                                weight: '500'
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                size: 13,
+                                weight: '500'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Pie Chart
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        new Chart(pieCtx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(biasData),
+                datasets: [{
+                    data: Object.values(biasData),
+                    backgroundColor: Object.values(biasColors),
+                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                    borderWidth: 2,
+                    hoverOffset: 15
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '60%',
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            padding: 20,
+                            font: {
+                                size: 13
+                            },
+                            usePointStyle: true,
+                            pointStyle: 'circle'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Bias Distribution',
+                        font: {
+                            size: 16,
+                            weight: '600'
+                        },
+                        padding: {
+                            bottom: 20
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.raw || 0;
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = Math.round((value / total) * 100);
+                                return `${label}: ${value} (${percentage}%)`;
+                            }
+                        }
+                    },
+                    datalabels: {
+                        color: '#fff',
+                        font: {
+                            weight: 'bold',
+                            size: 13
+                        },
+                        formatter: (value, ctx) => {
+                            const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = Math.round((value / total) * 100);
+                            return `${percentage}%`;
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
