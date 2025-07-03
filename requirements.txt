@@ -1,1 +1,6 @@
+flask
 requests
+pandas
+spacy
+transformers
+torch
