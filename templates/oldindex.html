@@ -1,0 +1,49 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BiasLens - News Bias Detector</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">Nuze</div>
+    <div class="nav-items">
+      <a href="#">Upload Article</a>
+      <a href="#">Paste Text</a>
+      <a href="#">Search Trending</a>
+    </div>
+    <form action="/analyze" method="post">
+      <input type="text" name="query" required>
+      <button type="submit">Search</button>
+    </form>
+    <button class="login-btn">Log in</button>
+  </nav>
+
+  <section class="hero">
+    <h1>Uncover Bias in News</h1>
+    <p>Paste an article or URL to analyze sentiment, tone, and political leaning.</p>
+    <div class="action-buttons">
+      <button onclick="alert('Paste box coming soon')">Paste Article</button>
+      <button onclick="alert('Upload coming soon')">Upload File</button>
+    </div>
+  </section>
+
+  <section class="results" id="results">
+    <h2>Search Results</h2>
+    <div class="search-results" id="searchResults"></div>
+  </section>
+
+  <script>
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        const query = e.target.value;
+        const resultsDiv = document.getElementById('searchResults');
+        resultsDiv.innerHTML = `<p>Searching for: <strong>${query}</strong></p><p>(Results will be shown here after backend integration)</p>`;
+      }
+    });
+  </script>
+</body>
+</html> -->

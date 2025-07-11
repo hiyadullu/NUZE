@@ -3,47 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BiasLens - News Bias Detector</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <title>Nuze: News & Nuance</title>
+  <link rel="stylesheet" href="../static/styles.css">
+  <script defer src="../static/script.js"></script>
 </head>
 <body>
-  <nav class="navbar">
-    <div class="logo">Nuze</div>
-    <div class="nav-items">
-      <a href="#">Upload Article</a>
-      <a href="#">Paste Text</a>
-      <a href="#">Search Trending</a>
-    </div>
-    <form action="/analyze" method="post">
-      <input type="text" name="query" required>
-      <button type="submit">Search</button>
-    </form>
-    <button class="login-btn">Log in</button>
-  </nav>
+  <!-- Theme Toggle -->
+  <button id="themeToggle">🌙</button>
 
-  <section class="hero">
-    <h1>Uncover Bias in News</h1>
-    <p>Paste an article or URL to analyze sentiment, tone, and political leaning.</p>
+  <!-- Hero Section -->
+  <section id="landing">
+    <div class="title-wrap">
+      <h1 class="nuze-title">NUZE</h1>
+      <img src="../static/ChatGPT Image Jul 10, 2025, 07_40_57 PM.png" alt="Floating Phone" class="floating-phone" />
+    </div>
+    <p class="nuze-description">
+      Nuze is an AI-powered platform that analyzes news content for political bias,<br>
+      sentiment, and factual accuracy to promote media literacy and conscious consumption.
+    </p>
+    <button id="startBtn">CLICK TO START</button>
+  </section>
+
+  <!-- Hidden App Content -->
+  <div id="mainApp" class="hidden">
+    <header class="navbar">
+      <div class="logo">Nuze</div>
+      <div class="nav-items">
+        <a href="#">Upload Article</a>
+        <a href="#">Paste Text</a>
+        <a href="#">Search Trending</a>
+      </div>
+      <form action="/analyze" method="post">
+        <input type="text" name="query" placeholder="Search..." required>
+        <button type="submit">Search</button>
+      </form>
+    </header>
+
     <div class="action-buttons">
-      <button onclick="alert('Paste box coming soon')">Paste Article</button>
-      <button onclick="alert('Upload coming soon')">Upload File</button>
+      <button onclick="handlePaste()">Paste Article</button>
+      <button onclick="document.getElementById('fileInput').click()">Upload File</button>
+      <input type="file" id="fileInput" style="display: none" accept=".txt,.pdf,.docx,.csv" />
     </div>
-  </section>
 
-  <section class="results" id="results">
-    <h2>Search Results</h2>
-    <div class="search-results" id="searchResults"></div>
-  </section>
-
-  <script>
-    document.getElementById('searchInput').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        const query = e.target.value;
-        const resultsDiv = document.getElementById('searchResults');
-        resultsDiv.innerHTML = `<p>Searching for: <strong>${query}</strong></p><p>(Results will be shown here after backend integration)</p>`;
-      }
-    });
-  </script>
+    <section class="results" id="results">
+      <h2>Search Results</h2>
+      <div class="search-results" id="searchResults"></div>
+    </section>
+  </div>
 </body>
 </html>
