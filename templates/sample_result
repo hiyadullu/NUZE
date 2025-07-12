@@ -434,10 +434,9 @@
         <div class="results-header">
             <h1 class="results-title">News Bias Analysis</h1>
             <div class="submitted-url">
-                You submitted: <a href="{{ original_url }}" target="_blank">{{ original_url }}</a>
-
+                You submitted: <a href="https://www.thehindu.com/news/national/final-moments-before-ahmedabad-air-india-plane-crash/article69803943.ece" target="_blank">https://www.thehindu.com/news/national/final-moments-before-ahmedabad-air-india-plane-crash/article69803943.ece</a>
             </div>
-            <div class="bias-indicator">Bias: {{ result }}</div>
+            <div class="bias-indicator">Bias: Moderately Biased</div>
             <button class="go-back-btn">Go Back</button>
         </div>
 
@@ -446,16 +445,27 @@
                 <h2 class="section-title">📄 Original Article</h2>
                 
                 <div class="article-url">
-                    <strong>URL:</strong> <a href="{{ original_url }}" target="_blank">{{ original_url }}</a>
-
+                    <strong>URL:</strong> <a href="https://www.thehindu.com/news/national/final-moments-before-ahmedabad-air-india-plane-crash/article69803943.ece" target="_blank">https://www.thehindu.com/news/national/final-moments-before-ahmedabad-air-india-plane-crash/article69803943.ece</a>
                 </div>
                 
                 <div class="bias-status">
-                    <strong>Bias:</strong> <span class="bias-value">{{ original_bias }}</span>
+                    <strong>Bias:</strong> <span class="bias-value">Moderately Biased</span>
                 </div>
                 
                 <div class="article-content">
-                     <p>{{ original_content }}</p>
+                    <p><strong>July 12, 2025</strong> - Paper The View From India Looking at World Affairs from the Indian perspective. First Day First Show News and reviews from the world of cinema and streaming. Today's Cache Your download of the top 5 technology stories of the day. Science For All The weekly newsletter from science writers takes the jargon out of science and puts the fun in! Data Point Decoding the headlines with facts, figures, and numbers Health Matters Ramya Kannan writes to you on getting to good health, and staying there The Hindu On Books Books of the week, reviews, excerpts, new titles and features.</p>
+                    
+                    <p><strong>July 12, 2025</strong> - Paper Updated - July 12, 2025 04:33 pm IST</p>
+                    
+                    <p>Wreckage of the crashed Air India Plane is lying at Ahmedabad Airport premises in Ahmedabad, Gujarat on July 12, 2025. | Photo Credit: Vijay Soneji</p>
+                    
+                    <p>The "movement" or "transitioning" of fuel control switches three seconds after Air India's Boeing 787-8 aircraft became airborne and later a loss of engine thrust and shutting down of both the engines precipitated an air crash on June 12 in Ahmedabad killing at least 260 people, including 19 on ground, according to the preliminary investigation report.</p>
+                    
+                    <p>The fuel cutoff switches of both the engines "transitioned from RUN to CUTOFF position one after another during the initial climb phase of the flight," the report said.</p>
+                    
+                    <p>The aircraft crashed within three minutes of takeoff from Ahmedabad's Sardar Vallabhbhai Patel International Airport at around 8:32 am on June 12, 2025.</p>
+                    
+                    <p>The preliminary investigation report released by the Aircraft Accident Investigation Bureau (AAIB) under the Ministry of Civil Aviation stated that the Boeing 787-8 aircraft operated by Air India took off from runway 05 at Ahmedabad airport at 8:29 am on June 12, 2025, for a scheduled domestic flight to Delhi.</p>
                 </div>
             </div>
 
@@ -465,30 +475,30 @@
                 <div class="bias-metrics">
                     <div class="metric-card">
                         <div class="metric-label">Left</div>
-                        <div class="metric-value">{{ bias_counts.left }}</div>
+                        <div class="metric-value">0</div>
                     </div>
                     <div class="metric-card">
                         <div class="metric-label">Center</div>
-                        <div class="metric-value">{{ bias_counts.center }}</div>
+                        <div class="metric-value">0</div>
                     </div>
                     <div class="metric-card">
                         <div class="metric-label">Right</div>
-                        <div class="metric-value">{{ bias_counts.right }}</div>
+                        <div class="metric-value">0</div>
                     </div>
                     <div class="metric-card">
                         <div class="metric-label">Neutral</div>
-                        <div class="metric-value">{{ bias_counts.neutral }}</div>
+                        <div class="metric-value">0</div>
                     </div>
                     <div class="metric-card">
                         <div class="metric-label">Fake</div>
-                        <div class="metric-value">{{ bias_counts.fake }}</div>
+                        <div class="metric-value">0</div>
                     </div>
                 </div>
                 
                 <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 12px;">
                     <h3 style="color: #2c3e50; margin-bottom: 15px; font-size: 1.2rem;">Analysis Notes:</h3>
                     <p style="color: #7f8c8d; line-height: 1.6; font-size: 0.95rem;">
-                        This is an automated interpretation. Article bias is estimated based on source language and detected sentiment. Please verify details through multiple sources for informed conclusions.
+                        The article appears to be a factual news report about an aircraft accident investigation. The content presents technical details and official findings without apparent political bias. The "moderately biased" classification may be due to the reporting style or source attribution patterns rather than ideological content.
                     </p>
                 </div>
             </div>
@@ -502,36 +512,36 @@
             <div class="mobile-content">
                 <div class="mobile-bias-result">
                     <div class="mobile-bias-title">News Bias Result</div>
-                    <div class="mobile-bias-status">{{result}}</div>
+                    <div class="mobile-bias-status">Moderately Biased</div>
                 </div>
                 
                 <div class="mobile-metrics">
                     <div class="mobile-metric">
                         <span class="mobile-metric-label">Left:</span>
-                        <span class="mobile-metric-value">{{ bias_counts.left }}</span>
+                        <span class="mobile-metric-value">0</span>
                     </div>
                     <div class="mobile-metric">
                         <span class="mobile-metric-label">Center:</span>
-                        <span class="mobile-metric-value">{{ bias_counts.center }}</span>
+                        <span class="mobile-metric-value">0</span>
                     </div>
                     <div class="mobile-metric">
                         <span class="mobile-metric-label">Right:</span>
-                        <span class="mobile-metric-value">{{ bias_counts.right }}</span>
+                        <span class="mobile-metric-value">0</span>
                     </div>
                     <div class="mobile-metric">
                         <span class="mobile-metric-label">Neutral:</span>
-                        <span class="mobile-metric-value">{{ bias_counts.neutral }}</span>
+                        <span class="mobile-metric-value">0</span>
                     </div>
                     <div class="mobile-metric">
                         <span class="mobile-metric-label">Fake:</span>
-                        <span class="mobile-metric-value">{{ bias_counts.fake }}</span>
+                        <span class="mobile-metric-value">0</span>
                     </div>
                 </div>
                 
                 <div class="mobile-article-preview">
-                    <div class="mobile-article-title">{{ original_url.split('/')[-1] }}</div>
-                    <div class="mobile-article-source">Auto-Detected</div>
-                    <p>{{ original_content[:150] }}...</p>
+                    <div class="mobile-article-title">Final moments before Ahmedabad Air India plane crash</div>
+                    <div class="mobile-article-source">The Hindu</div>
+                    <p>The "movement" of fuel control switches precipitated an air crash killing at least 260 people. The aircraft crashed within three minutes of takeoff from Ahmedabad's airport...</p>
                 </div>
             </div>
         </div>
@@ -568,92 +578,3 @@
     </script>
 </body>
 </html>
-<!-- {% if result and link %}
-    <div class="simple-result" style="text-align:center; margin-top:40px;">
-        <h2>News Bias Result</h2>
-        <p>You submitted: <a href="{{ link }}" target="_blank">{{ link }}</a></p>
-        <p><strong>Bias:</strong> {{ result }}</p>
-        <a href="/" class="btn"><i class="fas fa-arrow-left"></i> Go Back</a>
-    </div>
-
-    <hr> -->
-
-    <!-- {% if original_content %}
-    <div class="original-article" style="margin: 30px;">
-        <h2>Original Article</h2>
-        <p><strong>URL:</strong> <a href="{{ original_url }}" target="_blank">{{ original_url }}</a></p>
-        <p><strong>Bias:</strong> {{ original_bias }}</p>
-        <p>{{ original_content }}</p>
-    </div>
-    {% endif %}
-
-    {% if articles %}
-    <div class="related-articles" style="margin: 30px;">
-        <h2>Related Articles</h2>
-        {% for article in articles %}
-            <div style="margin-bottom: 15px;">
-                <a href="{{ article.url }}" target="_blank">{{ article.title }}</a><br>
-                <small>Bias: {{ article.bias }}</small>
-            </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-
-    {% if bias_counts %}
-    <div class="bias-summary" style="margin: 30px;">
-        <h3>Bias Summary:</h3>
-        <ul>
-            {% for label, count in bias_counts.items() %}
-                <li>{{ label | capitalize }}: {{ count }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    {% endif %}
-
-{% else %}
-    <div class="container">
-        <h1>Welcome to the News Bias Dashboard</h1>
-        <p>Submit a link to an article to check its bias.</p>
-        <form action="/submit" method="POST">
-            <input type="text" name="url" placeholder="Enter article URL" required>
-            <button type="submit" class="btn">Check Bias</button>
-        </form>
-    </div>
-
-    <script>
-        // Existing chart code
-        var ctx = document.getElementById('myChart')?.getContext('2d');
-        if (ctx) {
-            var myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Left', 'Center', 'Right'],
-                    datasets: [{
-                        label: 'Bias Distribution',
-                        data: [12, 19, 3],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        }
-    </script>
-{% endif %}
-</body>
-</html> -->
