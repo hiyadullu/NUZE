@@ -2,9 +2,44 @@
     <div class="simple-result" style="text-align:center; margin-top:40px;">
         <h2>News Bias Result</h2>
         <p>You submitted: <a href="{{ link }}" target="_blank">{{ link }}</a></p>
-        <p>{{ result }}</p>
+        <p><strong>Bias:</strong> {{ result }}</p>
         <a href="/" class="btn"><i class="fas fa-arrow-left"></i> Go Back</a>
     </div>
+
+    <hr>
+
+    {% if original_content %}
+    <div class="original-article" style="margin: 30px;">
+        <h2>Original Article</h2>
+        <p><strong>URL:</strong> <a href="{{ original_url }}" target="_blank">{{ original_url }}</a></p>
+        <p><strong>Bias:</strong> {{ original_bias }}</p>
+        <p>{{ original_content }}</p>
+    </div>
+    {% endif %}
+
+    {% if articles %}
+    <div class="related-articles" style="margin: 30px;">
+        <h2>Related Articles</h2>
+        {% for article in articles %}
+            <div style="margin-bottom: 15px;">
+                <a href="{{ article.url }}" target="_blank">{{ article.title }}</a><br>
+                <small>Bias: {{ article.bias }}</small>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if bias_counts %}
+    <div class="bias-summary" style="margin: 30px;">
+        <h3>Bias Summary:</h3>
+        <ul>
+            {% for label, count in bias_counts.items() %}
+                <li>{{ label | capitalize }}: {{ count }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
 {% else %}
     <div class="container">
         <h1>Welcome to the News Bias Dashboard</h1>
@@ -14,36 +49,39 @@
             <button type="submit" class="btn">Check Bias</button>
         </form>
     </div>
+
     <script>
         // Existing chart code
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Left', 'Center', 'Right'],
-                datasets: [{
-                    label: 'Bias Distribution',
-                    data: [12, 19, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
+        var ctx = document.getElementById('myChart')?.getContext('2d');
+        if (ctx) {
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Left', 'Center', 'Right'],
+                    datasets: [{
+                        label: 'Bias Distribution',
+                        data: [12, 19, 3],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     </script>
 {% endif %}

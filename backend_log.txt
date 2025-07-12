@@ -13,3 +13,5 @@
 2025-06-16 02:20:31.911018 - Received query: None
 2025-06-16 02:20:32.221885 - Fetched 0 articles from NewsAPI
 2025-06-16 02:20:32.847965 - Fetched 0 articles from NewsAPI
+2025-07-12 20:41:02.332174 - Scraped article from URL: https://www.thehindu.com/news/national/final-moments-before-ahmedabad-air-india-plane-crash/article69803943.ece
+2025-07-12 20:53:59.670966 - Scraped article from URL: https://www.thehindu.com/news/national/final-moments-before-ahmedabad-air-india-plane-crash/article69803943.ece

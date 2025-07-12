@@ -610,7 +610,11 @@
         <!-- Home Section -->
         <section class="home-section" id="home-section">
             <div class="action-buttons fade-in-up">
-                <a href="#" class="action-btn" onclick="uploadArticle()">Upload News Article/URLs</a>
+                <form action="/analyze" method="POST">
+                   <input type="text" name="news_url" placeholder="Paste article URL" required style="padding: 12px 20px; border-radius: 20px; border: 2px solid #1a1a2e; width: 300px;">
+                   <button type="submit" class="action-btn">Upload News Article/URLs</button>
+                </form>
+
                 <a href="#" class="action-btn" onclick="searchNews()">Search news by Topics</a>
             </div>
 
@@ -1030,8 +1034,10 @@
         // Button click handlers - ready for API integration
         function uploadArticle() {
             console.log('Upload Article clicked - ready for API integration');
-            // Add your API call here
-            alert('Upload Article functionality - Connect to your backend API');
+           
+            //api calls
+
+            
         }
 
         function searchNews() {
