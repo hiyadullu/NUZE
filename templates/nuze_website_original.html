@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muzee - News & Nuance</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Light Mode Styles */
+        body.light-mode {
+            background: radial-gradient(circle at center, #ffffff 0%, #e6efff 40%, #a8c8ff 100%);
+            color: #1a1a2e;
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: radial-gradient(circle at center, #3949ab 0%, #1a237e 40%, #000b3a 100%);
+            color: #ffffff;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 32px;
+            font-weight: 900;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -2px;
+            transform: skew(-10deg);
+        }
+
+        .logo-text {
+            font-size: 14px;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            opacity: 0.8;
+        }
+
+        .light-mode nav a {
+            color: #1a1a2e;
+        }
+
+        .dark-mode nav a {
+            color: #ffffff;
+        }
+
+        nav a:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 20px;
+        }
+
+        .light-mode .theme-toggle {
+            background: #1a1a2e;
+            color: #ffd700;
+        }
+
+        .dark-mode .theme-toggle {
+            background: #ffffff;
+            color: #1a1a2e;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Main Content */
+        main {
+            padding: 0 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .action-btn {
+            padding: 12px 30px;
+            border: 2px solid;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .light-mode .action-btn {
+            border-color: #1a1a2e;
+            color: #1a1a2e;
+            background: transparent;
+        }
+
+        .dark-mode .action-btn {
+            border-color: #ffffff;
+            color: #ffffff;
+            background: transparent;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .light-mode .action-btn:hover {
+            background: #1a1a2e;
+            color: #ffffff;
+        }
+
+        .dark-mode .action-btn:hover {
+            background: #ffffff;
+            color: #1a1a2e;
+        }
+
+        /* Articles Section */
+        .articles-section {
+            margin: 60px 0;
+        }
+
+        .articles-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .news-sources {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .source-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .source-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .source-logo.active {
+            transform: scale(1.1);
+            filter: brightness(1.2);
+        }
+
+        .source-logo img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .bbc-logo {
+            background: #000000;
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .bbc-logo:hover {
+            background: #333333;
+        }
+
+        .toi-logo {
+            color: #c41e3a;
+            font-weight: 700;
+            font-size: 24px;
+            border: 2px solid #c41e3a;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .toi-logo:hover {
+            background: #c41e3a;
+            color: #ffffff;
+        }
+
+        .ht-logo {
+            color: #0066cc;
+            font-weight: 700;
+            font-size: 18px;
+            border: 2px solid #0066cc;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .ht-logo:hover {
+            background: #0066cc;
+            color: #ffffff;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .article-card {
+            aspect-ratio: 16/10;
+            border: 2px solid;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .light-mode .article-card {
+            border-color: #1a1a2e;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .dark-mode .article-card {
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .article-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .article-summary {
+            font-size: 12px;
+            opacity: 0.7;
+            line-height: 1.4;
+        }
+
+        .article-source {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 10px;
+            font-weight: 500;
+            opacity: 0.6;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* About Section */
+        .about-section {
+            margin: 60px 0;
+            display: none;
+        }
+
+        .about-section.active {
+            display: block;
+        }
+
+        .about-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 50px;
+            text-align: left;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .about-text {
+            font-size: 16px;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+        }
+
+        .about-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .news-badge {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fake-news-badge {
+            background: #dc3545;
+            color: white;
+            transform: rotate(-5deg);
+        }
+
+        .breaking-news-badge {
+            background: #ff4444;
+            color: white;
+        }
+
+        .live-badge {
+            background: #ff0000;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .latest-news-badge {
+            background: #007bff;
+            color: white;
+            border-radius: 0 0 20px 20px;
+            position: relative;
+        }
+
+        .latest-news-badge::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #007bff;
+        }
+
+        .disinformation-badge {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 14px;
+            padding: 8px 16px;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .news-visual-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            border: 2px solid;
+        }
+
+        .light-mode .news-visual-container {
+            border-color: #1a1a2e;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .dark-mode .news-visual-container {
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .team-section {
+            margin: 60px 0;
+            display: none;
+        }
+
+        .team-section.active {
+            display: block;
+        }
+
+        .team-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 50px;
+            text-align: left;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+
+        .team-member {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .member-photo {
+            width: 120px;
+            height: 120px;
+            border: 2px solid;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .light-mode .member-photo {
+            border-color: #1a1a2e;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .dark-mode .member-photo {
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .member-info h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .member-info p {
+            font-size: 16px;
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                padding: 20px;
+            }
+
+            nav {
+                gap: 20px;
+            }
+
+            nav a {
+                font-size: 14px;
+            }
+
+            main {
+                padding: 0 20px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .news-sources {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .team-member {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .articles-title, .team-title, .about-title {
+                font-size: 24px;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .about-text {
+                font-size: 14px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Home section styles */
+        .home-section {
+            display: block;
+        }
+
+        .home-section.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <header>
+        <div class="logo">
+            <div class="logo-icon">NUZE</div>
+            <div class="logo-text">News & Nuance</div>
+        </div>
+        <nav>
+            <a href="#" onclick="window.location.href='index.html'">Landing Page</a>
+            <a href="#" onclick="showHome()">Home Page</a>
+            <a href="#" onclick="showAbout()">About the Project</a>
+            <a href="#" onclick="showTeam()">Our Team</a>
+        </nav>
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <span id="theme-icon">☀️</span>
+        </button>
+    </header>
+
+    <main>
+        <!-- Home Section -->
+        <section class="home-section" id="home-section">
+            <div class="action-buttons fade-in-up">
+                <a href="#" class="action-btn" onclick="uploadArticle()">Upload News Article/URLs</a>
+                <a href="#" class="action-btn" onclick="searchNews()">Search news by Topics</a>
+            </div>
+
+            <div class="articles-section fade-in-up">
+                <h2 class="articles-title">Explore New Articles</h2>
+                
+                <div class="news-sources">
+                    <div class="source-logo" onclick="selectNewsSource('bbc')">
+                        <div class="bbc-logo">BBC</div>
+                    </div>
+                    <div class="source-logo" onclick="selectNewsSource('toi')">
+                        <div class="toi-logo">TOI</div>
+                    </div>
+                    <div class="source-logo" onclick="selectNewsSource('ht')">
+                        <div class="ht-logo">Hindustan Times</div>
+                    </div>
+                </div>
+
+                <div class="articles-grid" id="articles-grid">
+                    <div class="article-card" onclick="openArticle('default1')">
+                        <div class="article-title">Select a news source above</div>
+                        <div class="article-summary">Choose BBC, TOI, or Hindustan Times to view the latest articles</div>
+                        <div class="article-source">NUZE</div>
+                    </div>
+                    <div class="article-card" onclick="openArticle('default2')">
+                        <div class="article-title">AI-Powered News Verification</div>
+                        <div class="article-summary">Our system analyzes news content for authenticity and bias detection</div>
+                        <div class="article-source">NUZE</div>
+                    </div>
+                    <div class="article-card" onclick="openArticle('default3')">
+                        <div class="article-title">Fighting Misinformation</div>
+                        <div class="article-summary">Advanced algorithms help identify fake news and manipulated content</div>
+                        <div class="article-source">NUZE</div>
+                    </div>
+                    <div class="article-card" onclick="openArticle('default4')">
+                        <div class="article-title">Real-Time Analysis</div>
+                        <div class="article-summary">Get instant feedback on news credibility and source reliability</div>
+                        <div class="article-source">NUZE</div>
+                    </div>
+                    <div class="article-card" onclick="openArticle('default5')">
+                        <div class="article-title">Transparent Journalism</div>
+                        <div class="article-summary">Promoting accountability and truth in modern news reporting</div>
+                        <div class="article-source">NUZE</div>
+                    </div>
+                    <div class="article-card" onclick="openArticle('default6')">
+                        <div class="article-title">Smarter News Consumption</div>
+                        <div class="article-summary">Empowering readers with tools for informed decision making</div>
+                        <div class="article-source">NUZE</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section" id="about-section">
+            <h2 class="about-title">About the Project</h2>
+            <div class="about-content">
+                    <p>In today's digital world, news travels faster than ever — but so does misinformation.
+                        We created Nuze because we've seen how easily fake information spreads across platforms like WhatsApp, Instagram, and Twitter. With the rise of AI-generated images, deepfakes, and edited media, it's becoming harder to distinguish what's real from what's not. Even some mainstream sources have started leaning into sensationalism, prioritizing clicks over credibility.</p>
+                    <p>We believe journalism holds immense power in shaping public understanding. Real journalism informs, educates, and empowers. It's not just about delivering headlines — it's about delivering truth. But in a world where falsehoods can look more convincing than facts, we need better tools to support honest reporting and conscious consumption.</p>
+                    <p>Nuze is our small step in that direction. It uses AI to assist in spotting potentially misleading or manipulated content and helps bring more transparency into how news is presented and shared. Whether it's verifying sources, analyzing trends, or highlighting inconsistencies, Nuze aims to make staying informed a little safer — and a lot smarter.</p>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+<section class="team-section" id="team-section">
+    <h2 class="team-title">Our Team</h2>
+    <div class="team-grid">
+        <div class="team-member" style="height: 200px; display: flex; flex-direction: row; align-items: center; gap: 15px;">
+            <div class="member-photo"></div>
+            <div class="member-info" style="display: flex; flex-direction: column; justify-content: center; flex-grow: 1;">
+                <h3>Hiya Dullu</h3>
+                <p>Backend and API Integration</p>
+                <p>Balancing ‘I got this’ and ‘I have no idea what I’m</p>
+                <p> doing’ like it’s a full-time job (which... it is).</p>
+            </div>
+        </div>
+        <div class="team-member" style="height: 200px; display: flex; flex-direction: row; align-items: center; gap: 15px;">
+            <div class="member-photo"></div>
+            <div class="member-info" style="display: flex; flex-direction: column; justify-content: center; flex-grow: 1;">
+                <h3>Sakshi Sharma</h3>
+                <p>UI/UX and Frontend</p>
+                <p>I may not be able to fix my problems,</p>
+                <p>but i can fix this website design.</p>
+            </div>
+        </div>
+        <div class="team-member" style="height: 200px; display: flex; flex-direction: row; align-items: center; gap: 15px;">
+            <div class="member-photo"></div>
+            <div class="member-info" style="display: flex; flex-direction: column; justify-content: center; flex-grow: 1;">
+                <h3>Aanya Singh</h3>
+                <p>Frontend and Landing Page</p>
+                <p>Turning caffeine into clean code and</p>
+                <p>existential dread into new features.</p>
+            </div>
+        </div>
+        <div class="team-member" style="height: 200px; display: flex; flex-direction: row; align-items: center; gap: 15px;">
+            <div class="member-photo"></div>
+            <div class="member-info" style="display: flex; flex-direction: column; justify-content: center; flex-grow: 1;">
+                <h3>Sakshi Verma</h3>
+                <p>Backend Integration</p>
+                <p>Probably overthinking this bio too.</p>
+            </div>
+        </div>
+    </div>
+</section>
+    </main>
+
+    <script>
+        // Global variables for news management
+        let currentNewsSource = 'default';
+        let newsData = {
+            'bbc': [],
+            'toi': [],
+            'ht': [],
+            'default': [
+                {
+                    title: "Select a news source above",
+                    summary: "Choose BBC, TOI, or Hindustan Times to view the latest articles",
+                    source: "NUZE"
+                },
+                {
+                    title: "AI-Powered News Verification",
+                    summary: "Our system analyzes news content for authenticity and bias detection",
+                    source: "NUZE"
+                },
+                {
+                    title: "Fighting Misinformation",
+                    summary: "Advanced algorithms help identify fake news and manipulated content",
+                    source: "NUZE"
+                },
+                {
+                    title: "Real-Time Analysis",
+                    summary: "Get instant feedback on news credibility and source reliability",
+                    source: "NUZE"
+                },
+                {
+                    title: "Transparent Journalism",
+                    summary: "Promoting accountability and truth in modern news reporting",
+                    source: "NUZE"
+                },
+                {
+                    title: "Smarter News Consumption",
+                    summary: "Empowering readers with tools for informed decision making",
+                    source: "NUZE"
+                }
+            ]
+        };
+
+        // News source selection function
+        async function selectNewsSource(source) {
+            // Remove active class from all sources
+            document.querySelectorAll('.source-logo').forEach(logo => {
+                logo.classList.remove('active');
+            });
+            
+            // Add active class to selected source
+            event.target.closest('.source-logo').classList.add('active');
+            
+            currentNewsSource = source;
+            
+            // Show loading state
+            showLoadingState();
+            
+            try {
+                // Fetch news from backend API
+                const articles = await fetchNewsFromAPI(source);
+                
+                // Update the articles grid
+                updateArticlesGrid(articles, source);
+                
+                console.log(`News source ${source} selected - ${articles.length} articles loaded`);
+                
+            } catch (error) {
+                console.error('Error fetching news:', error);
+                showErrorState(source);
+            }
+        }
+
+        // Backend API integration function
+        async function fetchNewsFromAPI(source) {
+            // Replace this URL with your actual backend API endpoint
+            const apiUrl = `https://your-backend-api.com/news/${source}`;
+            
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer YOUR_API_KEY', // Replace with your API key
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Store the fetched data
+                newsData[source] = data.articles || [];
+                
+                return newsData[source];
+                
+            } catch (error) {
+                console.error('API fetch error:', error);
+                
+                // Fallback to mock data for demonstration
+                return getMockNewsData(source);
+            }
+        }
+
+        // Mock data for demonstration (replace with actual API data)
+        function getMockNewsData(source) {
+            const mockData = {
+                'bbc': [
+                    {
+                        title: "Fuel switches cut off before Air India crash that killed 260, preliminary report says",
+                        summary: "The preliminary report into the Air India crash last month has been released - and casts attention on the actions of the pilots",
+                        source: "BBC",
+                        url: "https://www.bbc.com/news/live/cx20p2x9093t"
+                    },
+                    {
+                        title: "Gaza's largest functioning hospital facing disaster, medics warn, as Israel widens offensive",
+                        summary: "Nasser hospital in Khan Younis has a critical shortage of fuel and had to stop admitting patients after Israeli tanks advanced nearby on Thursday.",
+                        source: "BBC",
+                        url: "https://www.bbc.com/news/articles/cdx5zeywgrgo"
+                    },
+                    {
+                        title: "Ukraine to receive US air defence systems, says Trump",
+                        summary: "The US President says he will sell weapons to Nato, which would then give them to Ukraine.",
+                        source: "BBC",
+                        url: "https://www.bbc.com/news/articles/crl04200dp4o"
+                    },
+                    {
+                        title: "Row over language turns violent in India's richest state",
+                        summary: "The Maharashtra government has backtracked on a move to make Hindi mandatory in schools, but tensions continue.",
+                        source: "BBC",
+                        url: "https://www.bbc.com/news/articles/c93kwqvw3jxo"
+                    },
+                    {
+                        title: "India and China strive to reset ties but with caution",
+                        summary: "Bilateral relations between India and China have improved since the 2020 clash - but larger challenges remain.",
+                        source: "BBC",
+                        url: "https://www.bbc.com/news/articles/cly25ndp8kwo"
+                    },
+                    {
+                        title: "Are India's skies safe? Air safety watchdog responds amid rising concerns",
+                        summary: "India’s skies remain safe, with accident rates below global averages, air safety regulator chief tells the BBC.",
+                        source: "BBC",
+                        url: "https://www.bbc.com/news/articles/cvgnr828z0go"
+                    }
+                ],
+                'toi': [
+                    {
+                        title: "Air India 171 Crash Probe: Cockpit audio reveals pilots' confusion over mid-air fuel cutoff.",
+                        summary: "The Aircraft Accident Investigation Bureau (AAIB) has released its preliminary report into the Air India plane crash in Ahmedabad on June 12.",
+                        source: "Times of India",
+                        url: "https://timesofindia.indiatimes.com/india/air-india-171-crash-probe-cockpit-audio-reveals-pilots-confusion-over-mid-air-fuel-cutoff-10-key-points-from-aaib-preliminary-report/articleshow/122395222.cms"
+                    },
+                    {
+                        title: "Ex-CJIs on 'One Nation, One Election' bill: Can EC have unbridled power?",
+                        summary: "Former Chief Justices of India J S Khehar and D Y Chandrachud questioned the legislation's entrusting of unbridled powers to the Election Commission, and raised questions about other aspects of it as well.",
+                        source: "Times of India",
+                        url: "https://timesofindia.indiatimes.com/india/ex-cjis-on-one-nation-one-election-bill-can-ec-have-unbridled-power/articleshow/122394973.cms"
+                    },
+                    {
+                        title: "'What was Radhika Yadav's mom doing at the time of incident': Uncle says victim's mother was on same floor when shooting happened; cops probe all angles",
+                        summary: "Former tennis player Radhika Yadav was allegedly murdered by her father, Deepak Yadav, at their Gurugram home. Police are investigating all angles, including the role of Radhika's mother, who was present during the incident.",
+                        source: "Times of India",
+                        url: "https://timesofindia.indiatimes.com/city/gurgaon/what-was-radhika-yadavs-mom-doing-at-the-time-of-incident-uncle-says-victims-mother-on-same-floor-when-shooting-happened-cops-probe-all-angles/articleshow/122385342.cms"
+                    },
+                    {
+                        title: "Head of infrastructure engineering at Elon Musk’s AI company resigns: says ‘Jensen Huang was right, Elon and his teams are…’",
+                        summary: "Uday Ruddarraju, xAI's head of infrastructure engineering, has resigned after a year, having been instrumental in building the Colossus supercomputer and training Grok 3.",
+                        source: "Times of India",
+                        url: "https://timesofindia.indiatimes.com/technology/tech-news/head-of-infrastructure-engineering-at-elon-musks-ai-company-resigns-says-jensen-huang-was-right-elon-and-his-teams-are/articleshow/122362679.cms"
+                    },
+                    {
+                        title: "DRDO's ASTRA: BVRAAM missile successfully test-fired; IAF conducts trial from Su-30 MKI",
+                        summary: "Defence Research and Development Organisation (DRDO) and the Indian Air Force (IAF) on Friday successfully conducted trials of the Beyond Visual Range Air-to-Air missile (BVRAAM) ‘ASTRA’ with an indigenous RF seeker against high-speed unmanned aerial targets at different ranges.",
+                        source: "Times of India",
+                        url: "https://timesofindia.indiatimes.com/india/drdos-astra-bvraam-missile-successfully-test-fired-iaf-conducts-trial-from-su-30-mki/articleshow/122393167.cms"
+                    },
+                    {
+                        title: "Trump visits Texas: US President in flood-ravaged state",
+                        summary: "US President Donald Trump arrived in central Texas on Friday to survey the catastrophic damage caused by flash floods.",
+                        source: "Times of India",
+                        url: "https://timesofindia.indiatimes.com/world/us/trump-visits-texas-us-president-in-flood-ravaged-state-gets-briefed-by-emergency-responders/articleshow/122394284.cms"
+                    }
+                ],
+                'ht': [
+                    {
+                        title: "Ahmedabad Air India plane crash initial probe report shows fuel cutoff to both engines",
+                        summary: "The 15-page report offers the first official account of India’s deadliest air crash in decades and questions the cause of the rare dual engine failure.",
+                        source: "Hindustan Times",
+                        url: "https://www.hindustantimes.com/india-news/ahmedabad-air-india-plane-crash-initial-probe-report-shows-fuel-cutoff-to-both-engines-101752266215512.html"
+                    },
+                    {
+                        title: "Earthquake tremors felt in Delhi-NCR for second straight day",
+                        summary: "Delhi earthquake: Delhi-NCR felt earthquake tremors for the second straight day on Friday, with the epicentre of the latest quake again in Jhajjar.",
+                        source: "Hindustan Times",
+                        url: "https://www.hindustantimes.com/india-news/earthquake-tremors-felt-in-delhi-ncr-haryana-ghaziabad-noida-earthquake-magnitude-101752243765091.html"
+                    },
+                    {
+                        title: "China bans surgical treatment of Alzheimer’s",
+                        summary: "Local authorities have been advised to instruct medical institutions to halt treating Alzheimer's disease with LVA surgery.",
+                        source: "Hindustan Times",
+                        url: "https://www.hindustantimes.com/world-news/china-bans-surgical-treatment-of-alzheimers-101752253911501.html"
+                    },
+                    {
+                        title: "Tennis player Radhika Yadav's last rites performed in Gurugram, day after murder by father",
+                        summary: "The 25-year-old tennis star was shot by her father, Deepak Yadav, at their residence in n Sushant Lok Phase 2 in Gurugram's Sector 57.",
+                        source: "Hindustan Times",
+                        url: "https://www.hindustantimes.com/india-news/tennis-player-radhika-yadavs-last-rites-performed-in-gurugram-day-after-murder-by-father-101752243522092.html"
+                    },
+                    {
+                        title: "Kerala HC grants parole to murder convict to get married",
+                        summary: "Kochi, The Kerala High Court on Friday granted 15 days' parole to a murder convict to get married in view of his fiancee's love and affection for him despite his conviction and life sentence.",
+                        source: "Hindustan Times",
+                        url: "https://www.hindustantimes.com/india-news/kerala-hc-grants-parole-to-murder-convict-to-get-married-101752258535079.html"
+                    },
+                    {
+                        title: "NIA arrests man for 'actively promoting terror activities of ISIS'",
+                        summary: "New Delhi, The National Investigation Agency on Friday arrested a key accused for his alleged involvement in the promotion of the activities of the banned Islamic State of Iraq and Syria terror group, officials said.",
+                        source: "Hindustan Times",
+                        url: "https://www.hindustantimes.com/india-news/nia-arrests-man-for-actively-promoting-terror-activities-of-isis-101752247778547.html"
+                    }
+                ]
+            };
+            
+            newsData[source] = mockData[source];
+            return mockData[source];
+        }
+
+        // Update articles grid with new content
+        function updateArticlesGrid(articles, source) {
+            const articlesGrid = document.getElementById('articles-grid');
+            articlesGrid.innerHTML = '';
+            
+            articles.forEach((article, index) => {
+                const articleCard = document.createElement('div');
+                articleCard.className = 'article-card';
+                articleCard.onclick = () => openArticle(`${source}_${index}`, article);
+                
+                articleCard.innerHTML = `
+                    <div class="article-title">${article.title}</div>
+                    <div class="article-summary">${article.summary}</div>
+                    <div class="article-source">${article.source}</div>
+                `;
+                
+                articlesGrid.appendChild(articleCard);
+            });
+        }
+
+        // Show loading state
+        function showLoadingState() {
+            const articlesGrid = document.getElementById('articles-grid');
+            articlesGrid.innerHTML = '';
+            
+            for (let i = 0; i < 6; i++) {
+                const loadingCard = document.createElement('div');
+                loadingCard.className = 'article-card';
+                loadingCard.innerHTML = '<div class="loading-spinner"></div>';
+                articlesGrid.appendChild(loadingCard);
+            }
+        }
+
+        // Show error state
+        function showErrorState(source) {
+            const articlesGrid = document.getElementById('articles-grid');
+            articlesGrid.innerHTML = '';
+            
+            const errorCard = document.createElement('div');
+            errorCard.className = 'article-card';
+            errorCard.innerHTML = `
+                <div class="article-title">Error loading ${source.toUpperCase()} news</div>
+                <div class="article-summary">Please try again later or check your connection</div>
+                <div class="article-source">NUZE</div>
+            `;
+            
+            articlesGrid.appendChild(errorCard);
+        }
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (body.classList.contains('light-mode')) {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                themeIcon.textContent = '🌙';
+            } else {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                themeIcon.textContent = '☀️';
+            }
+        }
+
+        // Navigation functionality
+        function showHome() {
+            document.getElementById('home-section').classList.remove('hidden');
+            document.getElementById('team-section').classList.remove('active');
+            document.getElementById('about-section').classList.remove('active');
+        }
+
+        function showAbout() {
+            document.getElementById('home-section').classList.add('hidden');
+            document.getElementById('team-section').classList.remove('active');
+            document.getElementById('about-section').classList.add('active');
+        }
+
+        function showTeam() {
+            document.getElementById('home-section').classList.add('hidden');
+            document.getElementById('about-section').classList.remove('active');
+            document.getElementById('team-section').classList.add('active');
+        }
+
+        // Button click handlers - ready for API integration
+        function uploadArticle() {
+            console.log('Upload Article clicked - ready for API integration');
+            // Add your API call here
+            alert('Upload Article functionality - Connect to your backend API');
+        }
+
+        function searchNews() {
+            console.log('Search News clicked - ready for API integration');
+            // Add your API call here
+            alert('Search News functionality - Connect to your backend API');
+        }
+
+        function openArticle(articleId, articleData = null) {
+            console.log('Article clicked:', articleId);
+            
+            if (articleData) {
+                // If we have article data, we can display it or navigate to the full article
+                console.log('Article data:', articleData);
+                
+                // Example: Open article in new window if URL is provided
+                if (articleData.url) {
+                    window.open(articleData.url, '_blank');
+                } else {
+                    // Show article modal or navigate to article page
+                    alert(`Opening article: ${articleData.title}\n\nSummary: ${articleData.summary}\n\nSource: ${articleData.source}`);
+                }
+            } else {
+                // Fallback for default articles
+                alert(`Article ${articleId} clicked - Connect to your backend API`);
+            }
+        }
+
+        // Initialize theme
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeIcon = document.getElementById('theme-icon');
+            themeIcon.textContent = '☀️';
+        });
+
+        // Add smooth scrolling and animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.fade-in-up');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -32,6 +32,8 @@ html, body {
   box-shadow: none;
 }
 
+
+
 /* Hero Section */
 #landing {
   height: 100vh;
@@ -40,7 +42,7 @@ html, body {
   justify-content: center;
   align-items: center;
   padding: 0 20px;
-  background-color: #000b3a;
+  background-color: #51416d;
   position: relative;
   overflow: hidden;
 }
@@ -63,6 +65,7 @@ html, body {
   position: absolute;
   top: -80%;
   left: 50%;
+  /* Modify the rotation to tilt anticlockwise. */
   transform: translateX(40%) rotate(-30deg);
   width: 210px;
   z-index: 10;
@@ -117,63 +120,111 @@ html, body {
   align-items: center;
   padding: 1rem 2rem;
   background-color: #3a2264;
+  color: white;
 }
-.back-to-landing {
-  position: fixed;
-  top: 20px;
-  left: 20px;
+
+.nav-items a {
+  margin: 0 10px;
+  color: #ccc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-items a:hover {
+  color: #c7aed7;
+}
+
+
+
+/* Header search */
+.header-search {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.header-search input[type="text"] {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.header-search button {
+  padding: 8px 16px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #aaa;
   background-color: #4b2e83;
   color: white;
-  padding: 10px 16px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
-  z-index: 1000;
+  cursor: pointer;
+  font-weight: 600;
 }
 
-/* Mobile responsiveness */
-@media screen and (max-width: 768px) {
-  .nuze-title {
-    font-size: 3.5rem;
-  }
-
-  .floating-phone {
-    width: 140px;
-  }
-
-  .nuze-description {
-    font-size: 0.95rem;
-  }
-
-  .slide-btn {
-    padding: 10px 20px;
-    font-size: 0.95rem;
-  }
+.header-search button:hover {
+  background-color: #8b62ae;
 }
-.slide-frame {
-  position: fixed;
-  top: 0;
-  left: 100%;
-  width: 100%;
-  height: 100vh;
+
+/* Buttons */
+button,
+input[type="submit"] {
+  transition: background-color 0.3s, color 0.3s, transform 0.2s ease;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  background-color: #3e276f !important;
+  color: #fff;
+  transform: scale(1.03);
+}
+
+.action-buttons {
+  margin: 30px auto;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.action-buttons button {
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 10px;
   border: none;
-  transition: left 0.8s ease;
-  z-index: 999;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-.slide-frame.show {
-  left: 0;
-}
-.landing-toggle {
-  display: block;
+.results {
+  margin: 50px auto;
+  max-width: 900px;
 }
 
-.home-toggle {
-  display: none;
+.results h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
 }
 
-/* or vice versa depending on page */
+.search-results {
+  text-align: left;
+  background: #493a63;
+  padding: 20px;
+  border-radius: 12px;
+  color: white;
+}
 
+/* App Section */
+#mainApp {
+  min-height: 100vh;
+  background-color: inherit;
+}
+
+.results-section {
+  padding-bottom: 80px;
+}
+
+/* Light Mode */
 body.light-mode {
   background-color: #e6e6e6;
   color: #111;
@@ -191,8 +242,57 @@ body.light-mode .nuze-description {
   color: #333;
 }
 
-body.light-mode #themeToggle {
-  color: #111;
+body.light-mode .floating-phone {
+  opacity: 0.7;
+  filter: none;
 }
 
+body.light-mode #startBtn {
+  background-color: #322b3f;
+  color: #fff;
+}
 
+body.light-mode #startBtn:hover {
+  background-color: #896ebc;
+}
+
+body.light-mode .search-results {
+  background-color: #f0f0f0;
+  color: #222;
+}
+
+body.light-mode .navbar {
+  background-color: #ffffff;
+  color: #000;
+}
+
+body.light-mode .nav-items a {
+  color: #333;
+}
+
+body.light-mode .nav-items a:hover {
+  color: #000;
+}
+
+body.light-mode .login-btn {
+  color: #222;
+  border-color: #555;
+}
+
+body.light-mode #themeToggle {
+  color: #222;
+}
+
+body.light-mode .header-search input[type="text"] {
+  border: 1px solid #888;
+}
+
+body.light-mode .header-search button {
+  background-color: #8362c4;
+  color: #fff;
+  border: 1px solid #4b2e83;
+}
+
+body.light-mode .header-search button:hover {
+  background-color: #5b458a;
+}

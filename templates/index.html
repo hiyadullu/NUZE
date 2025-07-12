@@ -1,54 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nuze: News & Nuance</title>
-  <link rel="stylesheet" href="../static/styles.css">
-  <script defer src="../static/script.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nuze - Landing</title>
+  <link rel="stylesheet" href="../static/styles.css" />
 </head>
 <body>
-  <!-- Theme Toggle -->
   <button id="themeToggle">🌙</button>
 
-  <!-- Hero Section -->
   <section id="landing">
     <div class="title-wrap">
       <h1 class="nuze-title">NUZE</h1>
-      <img src="../static/ChatGPT Image Jul 10, 2025, 07_40_57 PM.png" alt="Floating Phone" class="floating-phone" />
+      <img src="../static/ChatGPT Image Jul 10, 2025, 07_40_57 PM.png" alt="Phone" class="floating-phone" />
     </div>
+
     <p class="nuze-description">
-      Nuze is an AI-powered platform that analyzes news content for political bias,<br>
-      sentiment, and factual accuracy to promote media literacy and conscious consumption.
+      Nuze is an AI-powered platform that analyzes news content for political bias, sentiment, and factual accuracy to promote media literacy and conscious consumption.
     </p>
+
     <button id="startBtn">CLICK TO START</button>
   </section>
 
-  <!-- Hidden App Content -->
-  <div id="mainApp" class="hidden">
-    <header class="navbar">
-      <div class="logo">Nuze</div>
-      <div class="nav-items">
-        <a href="#">Upload Article</a>
-        <a href="#">Paste Text</a>
-        <a href="#">Search Trending</a>
-      </div>
-      <form action="/analyze" method="post">
-        <input type="text" name="query" placeholder="Search..." required>
-        <button type="submit">Search</button>
-      </form>
-    </header>
+  <script>
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      document.body.classList.toggle("light-mode");
+      document.getElementById("themeToggle").textContent =
+        document.body.classList.contains("light-mode") ? "☀️" : "🌙";
+    });
 
-    <div class="action-buttons">
-      <button onclick="handlePaste()">Paste Article</button>
-      <button onclick="document.getElementById('fileInput').click()">Upload File</button>
-      <input type="file" id="fileInput" style="display: none" accept=".txt,.pdf,.docx,.csv" />
-    </div>
-
-    <section class="results" id="results">
-      <h2>Search Results</h2>
-      <div class="search-results" id="searchResults"></div>
-    </section>
-  </div>
+    document.getElementById("startBtn").addEventListener("click", () => {
+      window.location.href = "nuze_website_original.html";
+    });
+  </script>
 </body>
 </html>
+
+
