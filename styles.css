@@ -1,0 +1,198 @@
+/* Base styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #51416d;
+  color: #eee;
+  text-align: center;
+  overflow-x: hidden;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.hidden {
+  display: none;
+}
+
+#themeToggle {
+  position: fixed;
+  top: 40px;
+  right: 10px;
+  font-size: 1.5rem;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 9999;
+}
+#themeToggle:hover {
+  background-color: transparent !important;
+  color: inherit;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Hero Section */
+#landing {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  background-color: #000b3a;
+  position: relative;
+  overflow: hidden;
+}
+
+.title-wrap {
+  position: relative;
+}
+
+.nuze-title {
+  font-size: 9rem;
+  font-weight: 900;
+  color: white;
+  z-index: 1;
+  letter-spacing: 4px;
+  line-height: 0.9;
+  margin: 0;
+}
+
+.floating-phone {
+  position: absolute;
+  top: -80%;
+  left: 50%;
+  transform: translateX(40%) rotate(-30deg);
+  width: 210px;
+  z-index: 10;
+  animation: float 3s ease-in-out infinite;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateX(-50%) rotate(-10deg) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) rotate(-10deg) translateY(-10px);
+  }
+}
+
+.nuze-description {
+  font-size: 1rem;
+  max-width: 800px;
+  line-height: 1.4;
+  margin: 40px auto 10px;
+  padding: 10 20px;
+  color: #b6b0ad;
+  text-align: center;
+}
+
+#startBtn {
+  margin-top: 20px;
+  padding: 16px 40px;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #5c3c9d;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#startBtn:hover {
+  transform: scale(1.05);
+  background-color: #1c0a29;
+  color: #fff;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #3a2264;
+}
+.back-to-landing {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: #4b2e83;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  z-index: 1000;
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 768px) {
+  .nuze-title {
+    font-size: 3.5rem;
+  }
+
+  .floating-phone {
+    width: 140px;
+  }
+
+  .nuze-description {
+    font-size: 0.95rem;
+  }
+
+  .slide-btn {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+  }
+}
+.slide-frame {
+  position: fixed;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  height: 100vh;
+  border: none;
+  transition: left 0.8s ease;
+  z-index: 999;
+}
+
+.slide-frame.show {
+  left: 0;
+}
+.landing-toggle {
+  display: block;
+}
+
+.home-toggle {
+  display: none;
+}
+
+/* or vice versa depending on page */
+
+body.light-mode {
+  background-color: #e6e6e6;
+  color: #111;
+}
+
+body.light-mode #landing {
+  background-color: #e6e6e6;
+}
+
+body.light-mode .nuze-title {
+  color: #111;
+}
+
+body.light-mode .nuze-description {
+  color: #333;
+}
+
+body.light-mode #themeToggle {
+  color: #111;
+}
+
+

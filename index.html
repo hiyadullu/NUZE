@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nuze - Landing</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <button id="themeToggle">🌙</button>
+
+  <section id="landing">
+    <div class="title-wrap">
+      <h1 class="nuze-title">NUZE</h1>
+      <img src="ChatGPT Image Jul 10, 2025, 07_40_57 PM.png" alt="Phone" class="floating-phone" />
+    </div>
+
+    <p class="nuze-description">
+      Nuze is an AI-powered platform that analyzes news content for political bias, sentiment, and factual accuracy to promote media literacy and conscious consumption.
+    </p>
+
+    <button id="startBtn">CLICK TO START</button>
+  </section>
+
+  <script>
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      document.body.classList.toggle("light-mode");
+      document.getElementById("themeToggle").textContent =
+        document.body.classList.contains("light-mode") ? "☀️" : "🌙";
+    });
+
+    document.getElementById("startBtn").addEventListener("click", () => {
+      window.location.href = "nuze_website_original.html";
+    });
+  </script>
+</body>
+</html>
+
+
